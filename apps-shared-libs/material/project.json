@@ -1,0 +1,51 @@
+{
+  "name": "material",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps-shared-libs/material/src",
+  "prefix": "ng16-e",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "apps-shared-libs/material/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "apps-shared-libs/material/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "apps-shared-libs/material/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps-shared-libs/material/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps-shared-libs/material/**/*.ts",
+          "apps-shared-libs/material/**/*.html",
+          "apps-shared-libs/material/package.json"
+        ]
+      }
+    }
+  }
+}

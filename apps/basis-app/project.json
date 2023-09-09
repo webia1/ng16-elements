@@ -1,0 +1,112 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "basis-app",
+  "prefix": "ng16-e",
+  "projectType": "application",
+  "sourceRoot": "apps/basis-app/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "configurations": {
+        "development": {
+          "buildOptimizer": false,
+          "extractLicenses": false,
+          "namedChunks": true,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "budgets": [
+            {
+              "maximumError": "1mb",
+              "maximumWarning": "500kb",
+              "type": "initial"
+            },
+            {
+              "maximumError": "4kb",
+              "maximumWarning": "2kb",
+              "type": "anyComponentStyle"
+            }
+          ],
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "production",
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "assets": [
+          "apps/basis-app/src/favicon.ico",
+          "apps/basis-app/src/assets",
+          {
+            "glob": "**/*",
+            "input": "apps-globals/global-assets/i18n/",
+            "output": "global-assets/i18n/"
+          }
+        ],
+        "index": "apps/basis-app/src/index.html",
+        "main": "apps/basis-app/src/main.ts",
+        "outputPath": "dist/apps/basis-app",
+        "polyfills": ["zone.js"],
+        "scripts": [],
+        "styles": [
+          "apps-globals/global-assets/styles/apps-globals-basis.scss",
+          "apps/basis-app/src/styles.scss"
+        ],
+        "tsConfig": "apps/basis-app/tsconfig.app.json"
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "basis-app:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/basis-app/**/*.ts",
+          "apps/basis-app/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "serve": {
+      "configurations": {
+        "development": {
+          "browserTarget": "basis-app:build:development"
+        },
+        "production": {
+          "browserTarget": "basis-app:build:production"
+        }
+      },
+      "defaultConfiguration": "development",
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "proxyConfig": "apps/basis-app/proxy.conf.json"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "basis-app:build"
+      }
+    },
+    "test": {
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      },
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps/basis-app/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+    }
+  }
+}

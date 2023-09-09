@@ -1,0 +1,5 @@
+<h1>Formly</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+  <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+  <button type="submit" mat-stroked-button color="primary">Submit</button>
+</form>

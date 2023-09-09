@@ -1,0 +1,48 @@
+/**
+ * CUSTOMIZATION: Custom Angular Material Theme
+ * To be able to create a custom theme, we need to import the
+ * Angular Material theming functions.
+ */
+
+@use '@angular/material' as mat;
+@import './green';
+@import './material-icons';
+
+@include mat.core();
+
+/**
+* Available color palettes: https://material.io/design/color/
+*/
+
+$theme-primary: mat.define-palette($theme-primary-green);
+$theme-accent: mat.define-palette($theme-accent-orange, A200, A100, A400);
+$theme-warn: mat.define-palette($theme-warn-red);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $theme-primary,
+      accent: $theme-accent,
+      warn: $theme-warn,
+    ),
+    typography: mat.define-typography-config(),
+  )
+);
+
+/**
+ * CUSTOMIZATION:
+ * Set Dark Theme here if needed
+ */
+
+// $dark-theme: mat.define-dark-theme(
+//   (
+//     color: (
+//       primary: $theme-dark-primary,
+//       accent: $theme-dark-accent,
+//       warn: $theme-dark-warn,
+//     ),
+//     typography: mat.define-typography-config(),
+//   )
+// );
+
+@include mat.all-component-themes($light-theme);

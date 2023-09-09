@@ -1,0 +1,89 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "apps-shared-libs/reusables",
+  "prefix": "ng16-e",
+  "projectType": "library",
+  "sourceRoot": "apps-shared-libs/reusables/src",
+  "tags": [],
+  "targets": {
+    "build-storybook": {
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      },
+      "executor": "@storybook/angular:build-storybook",
+      "options": {
+        "browserTarget": "apps-shared-libs/reusables:build-storybook",
+        "compodoc": false,
+        "configDir": "apps-shared-libs/reusables/.storybook",
+        "outputDir": "dist/storybook/apps-shared-libs/reusables"
+      },
+      "outputs": ["{options.outputDir}"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps-shared-libs/reusables/**/*.ts",
+          "apps-shared-libs/reusables/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "static-storybook": {
+      "configurations": {
+        "ci": {
+          "buildTarget": "apps-shared-libs/reusables:build-storybook:ci"
+        }
+      },
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "apps-shared-libs/reusables:build-storybook",
+        "staticFilePath": "dist/storybook/apps-shared-libs/reusables"
+      }
+    },
+    "storybook": {
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      },
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps-globals/global-assets/i18n/",
+            "output": "global-assets/i18n/"
+          }
+        ],
+        "browserTarget": "apps-shared-libs/reusables:build-storybook",
+        "compodoc": false,
+        "configDir": "apps-shared-libs/reusables/.storybook",
+        "port": 4400,
+        "styles": ["apps-globals/global-assets/styles/apps-globals-basis.scss"]
+      }
+    },
+    "test": {
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      },
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps-shared-libs/reusables/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps-shared-libs/reusables/.storybook --url=http://localhost:4400"
+      }
+    }
+  }
+}
